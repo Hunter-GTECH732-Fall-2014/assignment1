@@ -1,0 +1,174 @@
+## Logan Winston
+## October 1, 2014
+## GTECH 732 Assignment #1
+## This program answers the following:
+##
+## Q1: Proportion of schools in borough MN
+## > Creates unique list of only borough data (BorList) by appending
+## > all of the borough values. Counts all of the instances of MN in BorList
+## > and counts all of the total instances using the len function.
+## > Divides MN instances by total to determine percentage across all 5 boro's.
+## > Results were 786 schools in NYC, 131 schools in MN, of 16.7% of NYC schools in MN.
+## > Results were verified using a spreadsheet program
+##
+## Q2: Bounding box of are the schools fall in
+## > Create unique list of x and y by appending all of the occurances.
+## > These are xcorList and ycorList. Use the min and max functions
+## > to determine the Minimum and Maximum x and y coordinates
+## > Results were xMin = 916,413, xMax = 1,065,003, yMin = 124,682, yMax = 268,380
+## > Results verified by spreadsheet.
+##
+## Q3: Weighted center of x and y
+## > This was two simple calculations (answer verified by spreadsheet): 
+## > xAvg = float(sum(xcorList)/len(xcorList))
+## > yAvg = float(sum(ycorList)/len(ycorList))
+##
+## Q4: Median enrollment per school
+## > First I sorted the enrollList I had created in ascending order.
+## > Then, I counted the total number of values in the list.
+## > Next, I created variables Low and High for situations in which
+## > the Mod function applied to the enrollList did not return a value of 1
+## > (i.e., suggesting an even number of instances in the list).
+## > Low and High represented the two middle numbers of an even numbered list.
+## > I used an If / Else statment such that 
+## > if the result of Mod function of enrollList / 2 == 1, print odd, otherwise
+## > print even.
+## > The program delivered a median of 596; calculating the same using a 
+## > spreadsheet delivered a median of 596.5.6.
+##
+## > count = len(enrollList)
+##
+## > Low = enrollList[count/2-1]
+## > High = enrollList[count/2]
+##
+## > odd = (count+1)/2-1
+## > even = (float(Low+High))/2
+## >
+## > 
+## > 
+## Q7: Standard deviation of per-school enrollment
+## > To calculate this I performed the underneath functions
+## > on successive lists that I created, arriving at at a
+## > Standard Deviation of 310 (311 when calculated by a spreadsheet).  
+##
+## > enrollAvg = float(sum(enrollList)/len(enrollList))
+##
+## > enrollDiff = float(map(lambda x: x-enrollAvg, enrollList ))
+##
+## > enrollDiffSq = (map(lambda x: x**2, enrollDiff))
+##
+## > enrollSumSq = sum(enrollDiffSq)
+##
+## > SumSqOverN = (enrollSumSq/len(enrollList))
+##
+## > enrollSD = math.sqrt(SumSqOverN)
+
+
+
+uniqList = []
+BorList = []
+facList = []
+enrollList = []
+xcorList = []
+ycorList = []
+
+## Additional Lists
+
+enrollSDList =[]
+
+
+## Additional Items
+
+import math
+
+infile = open('C:\GTECH_732\Asgn2\NYCElementarySchools.txt', 'r')
+for row in infile:
+    cols = row.split('\t')
+ 
+    uniqList.append( cols[0])
+    BorList.append( cols[1])
+    facList.append( cols[2])
+    enrollList.append(int (cols[3]))
+    xcorList.append(float (cols[4]))
+    ycorList.append(float (cols[5]))
+
+##uniqList operations
+    
+##BorList operations
+
+MNcount = float(BorList.count("MN"))
+NYCcount = float(len(BorList))
+
+##facList operations
+    
+##enrollList operations
+
+enrollList.sort()
+
+count = len(enrollList)
+
+Low = enrollList[count/2-1]
+High = enrollList[count/2]
+
+odd = (count+1)/2-1
+even = (float(Low+High))/2
+
+enrollAvg = float(sum(enrollList)/len(enrollList))
+
+enrollDiff = (map(lambda x: x-enrollAvg, enrollList ))
+
+enrollDiffSq = (map(lambda x: x**2, enrollDiff))
+
+enrollSumSq = sum(enrollDiffSq)
+
+SumSqOverN = (enrollSumSq/len(enrollList))
+
+enrollSD = math.sqrt(SumSqOverN)
+
+##xcorList operations
+
+xMin = min(xcorList)
+xMax = max(xcorList)
+xAvg = float(sum(xcorList)/len(xcorList))
+
+##ycorList operations
+
+yMin = min(ycorList)
+yMax = max(ycorList)
+yAvg = float(sum(ycorList)/len(ycorList))
+
+## Space
+
+print "Q1: Total Number of Schools in MN = %d" % MNcount
+print "Total Number of Schools in NYC = %d" % NYCcount
+print "MN Schools represent %0.3f of schools across all five boroughs " %(MNcount/NYCcount)
+print "*************************"
+print "Q2: Minimum  and Maximum X Coordinates are %d " % xMin
+print "and %d" %xMax
+print "*************************"
+print "Q2: Minimum  and Maximum Y Coordinates are %d " % yMin
+print "and %d" % yMax
+print "*************************"
+print "Q3: The Weighted Center of X is %0.2f " % xAvg
+print "*************************"
+print "Q3: The Weighted Center of Y is %0.2f " % yAvg
+print "*************************"
+if count % 2 == 1:
+    print "Q4: The median enrollment is %d " % odd
+
+else:
+     print "Q4: The median enrollment is %d " % even
+print "**************************"
+##print enrollDiff
+##print "**************************"
+##print enrollDiffSq
+##print "**************************"                     
+##print enrollSumSq
+##print "**************************"
+##print SumSqOverN
+##print "**************************"
+print "Q7: The average enrollment is %d " % enrollAvg
+print "The standard deviation of the per-school enrollment is %d " % enrollSD
+print "**************************"
+
+infile.close()
